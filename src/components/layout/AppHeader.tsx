@@ -19,7 +19,7 @@ export default function AppHeader({ onPickCity }: AppHeaderProps) {
       <h1 className="app-header__title">EARTH ENERGY MONITOR</h1>
       <CitySearchBar onPickCity={onPickCity} />
       <span className="app-header__end">
-        <span className="app-header__status">SYS.STANDBY // v0.1</span>
+        <span className="app-header__status">SYS.STANDBY // v1.0</span>
         <button
           type="button"
           className="app-header__about"
