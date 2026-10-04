@@ -632,7 +632,7 @@ export default function RegionalInspector({
       {traceContext?.status === 'ready' && traceContext.topSources.length > 0 && (
         <div className="detail-card trace-card">
           <span className="detail-card__label">
-            TOP REAL EMITTERS · {baseline.countryIso3} <ProvenanceBadge kind="REAL" />
+            TOP REAL EMISSION SOURCES · {baseline.countryIso3} <ProvenanceBadge kind="REAL" />
           </span>
           <ul className="trace-sources">
             {traceContext.topSources.slice(0, 5).map((src) => (
