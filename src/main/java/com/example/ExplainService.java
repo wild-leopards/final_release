@@ -72,7 +72,7 @@ public class ExplainService {
 
     public ExplainService(String apiKey, String model) {
         this.apiKey = apiKey;
-        this.model = model == null || model.isBlank() ? "gemini-2.5-flash" : model;
+        this.model = model == null || model.isBlank() ? "gemini-3.8-flash" : model;
     }
 
     public static ExplainService fromEnv() {
@@ -136,7 +136,7 @@ public class ExplainService {
         ObjectNode config = body.putObject("generationConfig");
         config.put("temperature", 0.3);
         config.put("maxOutputTokens", 700);
-        // 2.5-series models spend output tokens on "thinking" by default;
+        // Flash models spend output tokens on "thinking" by default;
         // the task is explanation only, so turn it off.
         config.putObject("thinkingConfig").put("thinkingBudget", 0);
         return MAPPER.writeValueAsString(body);

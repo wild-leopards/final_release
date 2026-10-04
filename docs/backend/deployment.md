@@ -91,14 +91,14 @@ Plain-language explanation of a dashboard snapshot via Google Gemini
 - `503` when `GEMINI_API_KEY` is unset; `502` on upstream errors.
 
 Env vars (systemd unit): `GEMINI_API_KEY` (required for explain, never
-in the frontend), `GEMINI_MODEL` (default `gemini-2.5-flash`). Set them
+in the frontend), `GEMINI_MODEL` (default `gemini-3.8-flash`). Set them
 with a drop-in:
 
 ```bash
 ssh minipc 'sudo systemctl edit powerapi'
 # [Service]
 # Environment=GEMINI_API_KEY=...
-# Environment=GEMINI_MODEL=gemini-2.5-flash
+# Environment=GEMINI_MODEL=gemini-3.8-flash
 ssh minipc 'sudo systemctl restart powerapi'
 ```
 
