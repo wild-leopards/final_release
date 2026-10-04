@@ -3,6 +3,8 @@
 /* ── Metric / detail cards ──────────────────────────────────────── */
 
 .metric-card {
+  min-width: 0;
+  overflow-wrap: anywhere;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -56,6 +58,10 @@
 }
 
 .detail-card {
+  /* Long text (sentences, IDs like "China_OtherBasins_…") wraps inside
+     the card instead of running past its border. */
+  min-width: 0;
+  overflow-wrap: anywhere;
   padding: 12px;
   text-align: left;
 
@@ -182,7 +188,6 @@
   font-size: 10px;
   letter-spacing: 0.06em;
   color: var(--text-secondary);
-  white-space: nowrap;
 }
 
 .trace-stat em {
@@ -221,9 +226,7 @@
   font-family: var(--font-mono);
   font-size: 11px;
   color: var(--text-primary);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  min-width: 0;
 }
 
 .trace-sources__val {
@@ -519,15 +522,12 @@
 }
 
 /* Big-country totals (e.g. China's 12.6M kt/yr) are thousands-separated
-   and can outgrow the card — shrink + ellipsis instead of overflowing
+   and can outgrow the card — they shrink and wrap instead of overflowing
    the inspector with a horizontal scrollbar. The arrow/delta never
    shrink so the comparison stays readable. */
 .comparison-card__before,
 .comparison-card__after {
   min-width: 0;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
 }
 
 .comparison-card__before {
@@ -916,6 +916,9 @@
 
 .add-object {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* One-line site outlook under the placement label (cursor country) */
@@ -1336,7 +1339,13 @@
 }
 
 .timeline-mode {
-  min-width: 130px;
+  /* Fixed width: the label length changes while scrubbing ("+9Y" →
+     "+10Y 11M"); a content-sized label would resize the flex track under
+     the cursor and make the thumb twitch. 20 chars + 0.2em tracking. */
+  flex: 0 0 auto;
+  width: 25ch;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
   text-align: right;
   font-family: var(--font-mono);
   font-size: 10px;

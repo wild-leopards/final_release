@@ -218,10 +218,9 @@ below stays the narrative overview:
   `Globe.tsx` — dollies back to the home view) → the globe does a
   ~220° arrival spin alone in its frame → the dashboard chrome
   (header, panels, timeline) rises in with a GSAP stagger. When the
-  overlay unmounts it commands one final `settle` spin: a slow ~140°
-  camera sweep over 4 s that eases out into the idle auto-rotate, so
-  the planet is still gently turning as the app goes live (skipping
-  lands in the finished state with no settle spin). Any click
+  overlay unmounts the idle auto-rotate simply takes over — there is
+  only the one arrival spin (a second post-intro `settle` spin was
+  removed; it read as the planet rotating twice). Any click
   skips straight to the finished state. At the pull-back the 2D map is
   hidden fast (`intro-overlay__map--hidden`, 0.45 s) so the OSM map
   never lingers as a "background" under the rising dashboard UI — the
@@ -374,6 +373,9 @@ value is carried along the timeline. The old card-wide
 everything but the national CO₂).
 
 Sidebar audit outcome (2026-10-04):
+- Hidden for the demo: the placed-facility Climate TRACE country card
+  (`SHOW_CLIMATE_TRACE_CARD = false` in `RegionalInspector.tsx`); its data
+  still feeds the AI overview snapshot.
 - Removed: Street View (Mapillary) card + `lib/mapillary`, the
   synthetic climate-zone line, the 30-day NASA POWER solar card (merged
   into the Solar verdict, which now uses the long-term annual mean), the

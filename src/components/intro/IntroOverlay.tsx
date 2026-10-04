@@ -10,7 +10,7 @@ import '../../lib/maplibreWorker';
 import logoUrl from '../../../logo.svg';
 
 /** Camera commands the intro choreography sends to the globe. */
-export type IntroCommand = 'pull-out' | 'spin' | 'settle' | 'skip';
+export type IntroCommand = 'pull-out' | 'spin' | 'skip';
 
 /** Merge toggle: does the intro open on the fullscreen OSM street map
  *  of Bulgaria (current design) or not? Flip to false to run the same
@@ -26,8 +26,8 @@ const INTRO_STREET_MAP = true;
 //             dollies back from the Bulgaria close-up (pull-out)
 //   4600      map gone; globe does its arrival spin
 //   5400      dashboard elements rise in (GSAP stagger)
-//   6700      overlay unmounts; the globe gets a 'settle' spin that
-//             eases out into the idle rotation as the app goes live
+//   6700      overlay unmounts; the idle auto-rotate takes over (one
+//             arrival spin only — no second post-intro spin)
 const MAP_HOLD = 2_400;
 const PULL_DURATION = 2_200;
 const FADE_INTO_PULL = 1_200;
@@ -144,11 +144,7 @@ export default function IntroOverlay({
         });
     });
     at(MAP_HOLD + PULL_DURATION + END_AFTER_SPIN, () => {
-      // End of the movie: the globe takes over with a smooth settle
-      // spin (commanded before unmount — the command outlives the
-      // overlay in App state). Skipping lands directly in the finished
-      // state instead, with no extra camera work.
-      onGlobeCommand('settle');
+      // End of the movie: the idle auto-rotate takes over from here.
       onDone();
     });
 

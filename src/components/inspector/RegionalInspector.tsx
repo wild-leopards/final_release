@@ -58,6 +58,15 @@ interface RegionalInspectorProps {
 /** Profile of a selected Biggest Threats dot: one of the world's largest
  *  individually observed emitters (Climate TRACE). Real data only — no
  *  before/after model applies to facilities we don't operate. */
+/** Demo toggle for the placed-facility Climate TRACE card. */
+const SHOW_CLIMATE_TRACE_CARD = false;
+
+/** Lets long underscore IDs ("China_OtherBasins_OtherResources") wrap
+ *  at the underscores: a zero-width space after each one. */
+function breakable(name: string): string {
+  return name.replace(/_/g, '_\u200b');
+}
+
 function ThreatProfile({ threat }: { threat: TraceThreat }) {
   return (
     <aside className="panel regional-inspector">
@@ -69,7 +78,7 @@ function ThreatProfile({ threat }: { threat: TraceThreat }) {
         <span className="detail-card__label">
           Facility <span className="trace-badge trace-badge--live">LIVE · CLIMATE TRACE</span>
         </span>
-        <div className="detail-card__value">{threat.name}</div>
+        <div className="detail-card__value">{breakable(threat.name)}</div>
         <div className="detail-card__note">
           {threat.sector ? `${threat.sector.replace(/-/g, ' ')} · ` : ''}
           {threat.country ?? '—'} · {formatLatLon({ lat: threat.lat, lon: threat.lon })}
@@ -307,7 +316,7 @@ function DataCenterProfile({ dc, year }: { dc: DataCenterPoint; year: number }) 
         <span className="detail-card__label">
           Facility <ProvenanceBadge kind="REAL" source="OSM" />
         </span>
-        <div className="detail-card__value">{dc.name}</div>
+        <div className="detail-card__value">{breakable(dc.name)}</div>
         <div className="detail-card__note">
           {dc.operator ? `${dc.operator} · ` : ''}
           {formatLatLon(dc)}
@@ -549,7 +558,9 @@ export default function RegionalInspector({
         </div>
       </div>
 
-      {raw.dataSource === 'climatetrace' && raw.countryName && (
+      {/* Climate TRACE country card hidden for the demo (too dense). The data
+          stays in the snapshot, so the AI overview still uses it. */}
+      {SHOW_CLIMATE_TRACE_CARD && raw.dataSource === 'climatetrace' && raw.countryName && (
         <div className="detail-card trace-card">
           <span className="detail-card__label">
             CLIMATE TRACE · {raw.dataYear} CO₂e <ProvenanceBadge kind="REAL" />
@@ -627,7 +638,7 @@ export default function RegionalInspector({
             {traceContext.topSources.slice(0, 5).map((src) => (
               <li key={src.id} className="trace-sources__row">
                 <span className="trace-sources__name" title={src.name}>
-                  {src.name}
+                  {breakable(src.name)}
                 </span>
                 <span className="trace-sources__val">{formatTonnes(src.emissionsT)}</span>
               </li>

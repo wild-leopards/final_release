@@ -90,13 +90,6 @@ const INTRO_PULL_DURATION = 2.2;
 const INTRO_SKIP_DURATION = 0.6;
 const INTRO_SPIN_DURATION = 1.6;
 const INTRO_SPIN_ANGLE = MathUtils.degToRad(220);
-// 'settle': the post-intro spin. Fires when the overlay unmounts — a
-// slow, long sweep that reads as the planet turning after "arrival",
-// easing out into the idle auto-rotate (home view distance is past the
-// idle-spin threshold, so IdleSpin continues the motion from there).
-const INTRO_SETTLE_DURATION = 4;
-const INTRO_SETTLE_ANGLE = MathUtils.degToRad(140);
-
 interface IntroMove {
   kind: 'move';
   fromDir: Vector3;
@@ -139,16 +132,15 @@ function IntroCameraRig({
     // The intro aims at the globe center — zoom-to-cursor may have
     // drifted the orbit target onto the surface, so center it again.
     controlsRef.current?.target.set(0, 0, 0);
-    if (command === 'spin' || command === 'settle') {
+    if (command === 'spin') {
       const spherical = new Spherical().setFromVector3(camera.position);
       anim.current = {
         kind: 'spin',
         spherical,
         theta0: spherical.theta,
-        angle: command === 'settle' ? INTRO_SETTLE_ANGLE : INTRO_SPIN_ANGLE,
+        angle: INTRO_SPIN_ANGLE,
         elapsed: 0,
-        duration:
-          command === 'settle' ? INTRO_SETTLE_DURATION : INTRO_SPIN_DURATION,
+        duration: INTRO_SPIN_DURATION,
       };
     } else {
       const fromDir = camera.position.clone().normalize();
