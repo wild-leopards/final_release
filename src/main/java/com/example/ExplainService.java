@@ -53,11 +53,14 @@ public class ExplainService {
 
     /** Max accepted request body (bytes): a snapshot is ~2-4 KB. */
     static final int MAX_BODY_BYTES = 16 * 1024;
-    static final Duration TIMEOUT = Duration.ofSeconds(20);
+    /** Per-attempt timeout: a slow primary model falls back to the
+     *  fallback model, so the worst case is 2 × this. */
+    static final Duration TIMEOUT = Duration.ofSeconds(15);
     private static final int CACHE_SIZE = 200;
 
     private final String apiKey;
     private final String model;
+    private final String fallbackModel;
     private final HttpClient http = HttpClient.newBuilder()
             .connectTimeout(Duration.ofSeconds(10)).build();
     private final RateLimiter limiter = new RateLimiter(10, 60_000);
@@ -71,12 +74,30 @@ public class ExplainService {
     };
 
     public ExplainService(String apiKey, String model) {
+        this(apiKey, model, null);
+    }
+
+    public ExplainService(String apiKey, String model, String fallbackModel) {
         this.apiKey = apiKey;
-        this.model = model == null || model.isBlank() ? "gemini-3.8-flash" : model;
+        this.model = model == null || model.isBlank() ? "gemini-3.5-flash" : model;
+        this.fallbackModel = fallbackModel == null || fallbackModel.isBlank()
+                ? "gemini-3.5-flash-lite" : fallbackModel;
     }
 
     public static ExplainService fromEnv() {
-        return new ExplainService(System.getenv("GEMINI_API_KEY"), System.getenv("GEMINI_MODEL"));
+        return new ExplainService(System.getenv("GEMINI_API_KEY"), System.getenv("GEMINI_MODEL"),
+                System.getenv("GEMINI_FALLBACK_MODEL"));
+    }
+
+    private HttpRequest requestFor(String m, String body) {
+        return HttpRequest.newBuilder()
+                .uri(URI.create("https://generativelanguage.googleapis.com/v1beta/models/"
+                        + m + ":generateContent"))
+                .timeout(TIMEOUT)
+                .header("Content-Type", "application/json")
+                .header("x-goog-api-key", apiKey)
+                .POST(HttpRequest.BodyPublishers.ofString(body))
+                .build();
     }
 
     public boolean configured() {
@@ -96,15 +117,29 @@ public class ExplainService {
             String hit = cache.get(key);
             if (hit != null) return new Result(hit, true, model);
         }
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://generativelanguage.googleapis.com/v1beta/models/"
-                        + model + ":generateContent"))
-                .timeout(TIMEOUT)
-                .header("Content-Type", "application/json")
-                .header("x-goog-api-key", apiKey)
-                .POST(HttpRequest.BodyPublishers.ofString(buildRequestBody(snapshot)))
-                .build();
-        HttpResponse<String> response = http.send(request, HttpResponse.BodyHandlers.ofString());
+        String body = buildRequestBody(snapshot);
+        // Gemini 503 (model overloaded) / 429 (quota burst) are transient
+        // on Google's side: fall back to a second model after a pause.
+        HttpResponse<String> response = null;
+        String usedModel = model;
+        for (String m : new String[]{model, fallbackModel}) {
+            if (response != null) Thread.sleep(1000);
+            usedModel = m;
+            try {
+                response = http.send(requestFor(m, body), HttpResponse.BodyHandlers.ofString());
+            } catch (java.net.http.HttpTimeoutException e) {
+                // Slow/overloaded primary: try the fallback; rethrow if
+                // the fallback times out too.
+                if (m.equals(fallbackModel)) throw e;
+                continue;
+            }
+            if (response.statusCode() != 503 && response.statusCode() != 429) break;
+        }
+        if (response == null) throw new IllegalStateException("Gemini did not answer");
+        if (response.statusCode() == 503 || response.statusCode() == 429) {
+            throw new IllegalStateException(
+                    "Gemini is temporarily overloaded (HTTP " + response.statusCode() + ") — try again in a moment");
+        }
         if (response.statusCode() != 200) {
             throw new IllegalStateException("Gemini returned HTTP " + response.statusCode());
         }
@@ -115,7 +150,7 @@ public class ExplainService {
         synchronized (cache) {
             cache.put(key, text);
         }
-        return new Result(text, false, model);
+        return new Result(text, false, usedModel);
     }
 
     /** Stable SHA-256 of a snapshot: keys sorted, whitespace-free. */
@@ -136,9 +171,9 @@ public class ExplainService {
         ObjectNode config = body.putObject("generationConfig");
         config.put("temperature", 0.3);
         config.put("maxOutputTokens", 700);
-        // Flash models spend output tokens on "thinking" by default;
-        // the task is explanation only, so turn it off.
-        config.putObject("thinkingConfig").put("thinkingBudget", 0);
+        // Explanation only: keep "thinking" minimal (3.x models accept
+        // thinkingLevel; flash-lite rejects the older thinkingBudget: 0).
+        config.putObject("thinkingConfig").put("thinkingLevel", "minimal");
         return MAPPER.writeValueAsString(body);
     }
 

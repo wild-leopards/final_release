@@ -335,8 +335,9 @@ below stays the narrative overview:
   projects its grid intensity along the country's real Ember slope,
   PUE improving like any operating facility (`PROJECTED → year` badge).
 - **City search** — search field in the header (`CitySearchBar` over the
-  `CITIES` dataset in `src/lib/cities.ts`: every Bulgarian town with city
-  status above ~10k inhabitants, plus major world cities). Prefix matches
+  `CITIES` dataset in `src/lib/cities.ts`: all 257 official Bulgarian
+  towns from the NSI settlement register in `src/lib/bulgarianTowns.ts`,
+  plus major world cities). Prefix matches
   rank above substring matches; keyboard navigation (arrows / Enter /
   Escape). Picking a city arcs the camera over the globe to the site
   (`CameraFlyTo` in `Globe.tsx`, 2.6 s ease-in-out; orbit controls are
@@ -395,7 +396,11 @@ month) and `projected` (selected month, when the timeline moved), units,
 provenance, formula text, verdicts) to `POST /api/explain`. Answers are
 memoized per snapshot on the client; after scrubbing, the old answer
 dims with a "Re-explain for <month>" button. Without `GEMINI_API_KEY` on
-the backend the card shows the 503 message.
+the backend the card shows the 503 message. While waiting, `ExplainLoading` shows a
+scanning bar, shimmering placeholder lines and an elapsed-seconds
+counter; after 15 s (the backend's per-attempt timeout) the status reads
+"switching to the backup model". Animations stop under
+`prefers-reduced-motion`.
 
 ## Source Layout
 
@@ -417,6 +422,7 @@ src/
 ├── lib/
 │   ├── basemap.ts          # shared MapLibre style + tile server config
 │   ├── cities.ts           # city dataset (Bulgarian towns + world cities)
+│   ├── bulgarianTowns.ts   # all 257 Bulgarian towns (NSI register)
 │   ├── climatetrace/       # Climate TRACE v7 client + country centroids
 │   ├── power/              # NASA POWER client (our Java backend proxy)
 │   ├── projection.ts       # timeline year-by-year projection model

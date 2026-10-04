@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { fetchExplanation, type ExplainSnapshot } from '../../lib/explain';
 
 type State =
@@ -43,9 +43,7 @@ export default function ExplainPanel({ snapshot }: { snapshot: ExplainSnapshot }
       <span className="detail-card__label">
         AI EXPLANATION <span className="trace-badge trace-badge--est">GEMINI</span>
       </span>
-      {state.status === 'loading' && !stale && (
-        <div className="explain-card__loading">Asking the model…</div>
-      )}
+      {state.status === 'loading' && !stale && <ExplainLoading />}
       {state.status === 'done' && (
         <div className={`explain-card__text${stale ? ' explain-card__text--stale' : ''}`}>
           {stale && <div className="detail-card__note">Explained for {state.month}:</div>}
@@ -64,6 +62,53 @@ export default function ExplainPanel({ snapshot }: { snapshot: ExplainSnapshot }
       )}
       <div className="detail-card__note">
         Explains only the numbers shown here — it does not compute new ones.
+      </div>
+    </div>
+  );
+}
+
+/** Backend per-attempt timeout (ExplainService.TIMEOUT): after it the
+ *  backend is answering from the fallback model. */
+const PRIMARY_TIMEOUT_S = 15;
+
+/** Loading state: scanning bar, shimmering placeholder lines and an
+ *  elapsed-seconds counter, so a 15–30 s answer never looks frozen. */
+function ExplainLoading() {
+  const [elapsed, setElapsed] = useState(0);
+  useEffect(() => {
+    const started = Date.now();
+    const timer = window.setInterval(
+      () => setElapsed(Math.floor((Date.now() - started) / 1000)),
+      250,
+    );
+    return () => window.clearInterval(timer);
+  }, []);
+
+  const phase =
+    elapsed < 3
+      ? 'Sending the numbers to the model'
+      : elapsed < PRIMARY_TIMEOUT_S
+        ? 'Model is writing the explanation'
+        : 'Main model is slow — switching to the backup model';
+
+  return (
+    <div className="explain-loading" role="status" aria-live="polite">
+      <div className="explain-loading__bar" aria-hidden="true" />
+      <div className="explain-loading__lines" aria-hidden="true">
+        <span />
+        <span />
+        <span />
+      </div>
+      <div className="explain-loading__status">
+        <span>
+          {phase}
+          <span className="explain-loading__dots" aria-hidden="true">
+            <i>.</i>
+            <i>.</i>
+            <i>.</i>
+          </span>
+        </span>
+        <span className="explain-loading__time">{elapsed}s</span>
       </div>
     </div>
   );

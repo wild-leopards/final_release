@@ -24,7 +24,7 @@ class ExplainServiceTest {
         JsonNode body = M.readTree(ExplainService.buildRequestBody(M.readTree("{\"site\":\"X\"}")));
         assertTrue(body.at("/systemInstruction/parts/0/text").asText().contains("ONLY numbers"));
         assertTrue(body.at("/contents/0/parts/0/text").asText().contains("\"site\":\"X\""));
-        assertEquals(0, body.at("/generationConfig/thinkingConfig/thinkingBudget").asInt());
+        assertEquals("minimal", body.at("/generationConfig/thinkingConfig/thinkingLevel").asText());
     }
 
     @Test

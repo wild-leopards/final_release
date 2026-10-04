@@ -85,20 +85,19 @@ Plain-language explanation of a dashboard snapshot via Google Gemini
   computing new numbers: the model only explains the given values,
   respects the REAL/DERIVED/SYNTHETIC labels, and answers in English in
   120–180 words.
-- Rate limit 10 requests/min per client IP (`429`), 20 s upstream
-  timeout (`504`), LRU cache (200 entries) keyed by SHA-256 of the
+- Rate limit 10 requests/min per client IP (`429`), 15 s timeout per Gemini attempt (a timed-out primary falls back too; `504` if both time out), LRU cache (200 entries) keyed by SHA-256 of the
   key-sorted snapshot, CORS preflight (`OPTIONS`) handled.
-- `503` when `GEMINI_API_KEY` is unset; `502` on upstream errors.
+- `503` when `GEMINI_API_KEY` is unset; `502` on upstream errors (on Gemini 503/429 "overloaded" the request is retried once on `GEMINI_FALLBACK_MODEL`, default `gemini-3.5-flash-lite`).
 
 Env vars (systemd unit): `GEMINI_API_KEY` (required for explain, never
-in the frontend), `GEMINI_MODEL` (default `gemini-3.8-flash`). Set them
+in the frontend), `GEMINI_MODEL` (default `gemini-3.5-flash`). Set them
 with a drop-in:
 
 ```bash
 ssh minipc 'sudo systemctl edit powerapi'
 # [Service]
 # Environment=GEMINI_API_KEY=...
-# Environment=GEMINI_MODEL=gemini-3.8-flash
+# Environment=GEMINI_MODEL=gemini-3.5-flash
 ssh minipc 'sudo systemctl restart powerapi'
 ```
 

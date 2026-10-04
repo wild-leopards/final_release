@@ -322,7 +322,7 @@ export async function fetchExplanation(snapshot: ExplainSnapshot): Promise<strin
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body,
-    signal: AbortSignal.timeout(30_000),
+    signal: AbortSignal.timeout(40_000), // backend: 2 × 15 s attempts
   });
   const json = (await response.json().catch(() => null)) as { text?: string; error?: string } | null;
   if (!response.ok || !json?.text) {
