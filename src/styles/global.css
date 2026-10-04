@@ -1,0 +1,104 @@
+/* Reset + design tokens + global rules */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+:root {
+  /* Backgrounds */
+  --bg-main: #05090d;
+  --bg-panel: #091117;
+  --bg-card: #10171e;
+
+  /* Accents */
+  --border-cyan: #75dce6;
+  --accent-blue: #1687e8;
+  --accent-cyan: #42d7e8;
+  --accent-purple: #5f174e;
+  --purple-border: #a24e8f;
+  --timeline-bg: #180c1c;
+
+  /* Crew accents (about page crew manifest, one per member) */
+  --crew-cyan: #42d7e8;
+  --crew-amber: #f0a35e;
+  --crew-sky: #6ec6ff;
+  --crew-violet: #b18cff;
+
+  /* Text */
+  --text-primary: #c5d3d9;
+  --text-secondary: #7f929c;
+  --text-accent: #8feaf0;
+  --text-purple: #d9a3c9;
+
+  /* Status palette (verdicts, badges, deltas) — the cyan console reads
+     best with muted, shifted-hue statuses rather than pure red/green. */
+  --status-good: #7ddba3;
+  --status-warn: #f0a35e;
+  --status-bad: #ff5d5d;
+  --status-bad-text: #e88b8b;
+  --timeline-playhead: #e3b6d5;
+
+  /* Glow */
+  --glow-cyan: rgba(114, 219, 229, 0.22);
+  --glow-blue: rgba(22, 135, 232, 0.28);
+  --glow-purple: rgba(162, 78, 143, 0.3);
+
+  /* Borders at reduced strength for secondary frames */
+  --border-cyan-dim: rgba(117, 220, 230, 0.28);
+  --border-cyan-soft: rgba(117, 220, 230, 0.45);
+
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas,
+    "Liberation Mono", monospace;
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  overflow: hidden; /* the app fills the viewport, no scrollbars */
+}
+
+/* ── Scrollbars: thin cyan console rails ──────────────────────────
+   Global so every scrollable area (search results, type picker menu,
+   popups) gets the same treatment. Standard properties for Firefox,
+   WebKit pseudo-elements for Chromium/Edge. Stays readable with all
+   glow removed: the thumb is a solid token color, no shadow. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-cyan-dim) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-cyan-dim);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-cyan-soft);
+  box-shadow: 0 0 6px var(--glow-cyan);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}

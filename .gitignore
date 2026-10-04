@@ -1,0 +1,78 @@
+# Dependencies / build output
+node_modules
+dist
+dist-ssr
+target
+dependency-reduced-pom.xml
+
+# Frontend tooling
+*.local
+.vite
+
+# Maven extras
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# Java
+*.class
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+*.hs_err_pid*
+*.replay
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Environment
+.env
+.env.*
+!.env.example
+config.properties
+
+# Editor directories and files
+.vscode/
+!.vscode/extensions.json
+.idea/
+*.iws
+*.iml
+*.ipr
+*.code-workspace
+.classpath
+.project
+.settings
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+tmp/
+*.tmp
+*.temp
+*.bak
+*~
+
+# Agent tooling — but keep the shared agent memory committed
+# (see AGENTS.md; `.claude/*` + negation, since an ignored directory
+# cannot be re-included)
+.claude/*
+!.claude/memory/

@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Eco-Sphere</title>
+    <!-- Data origins used seconds after boot; connect while JS parses. -->
+    <link rel="preconnect" href="http://dminipc.local:8081" crossorigin />
+    <link rel="preconnect" href="https://api.climatetrace.org" crossorigin />
+    <!-- Pre-JS boot shell: the intro overlay, painted before any bundle
+         executes (overlaid by the live IntroOverlay from React once it
+         mounts, which removes this shell). Styles are literal mirrors of
+         the .intro-overlay rules in src/styles/intro.css because on
+         first paint the bundled CSS does not exist yet. -->
+    <style>
+      .intro-shell {
+        position: fixed;
+        inset: 0;
+        z-index: 99;
+        cursor: pointer;
+        background: #05090d;
+      }
+      .intro-shell__logo {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 500px;
+        transform: translate(-50%, -50%);
+        filter: invert(1) drop-shadow(0 0 10px rgba(114, 219, 229, 0.22));
+        opacity: 0.92;
+      }
+      .intro-shell__title {
+        position: absolute;
+        top: 18px;
+        left: 20px;
+        font-family: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas,
+          "Liberation Mono", monospace;
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 0.28em;
+        color: #8feaf0;
+        text-shadow: 0 0 8px rgba(114, 219, 229, 0.22);
+      }
+      .intro-shell__caption {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        font-family: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas,
+          "Liberation Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.2em;
+        color: #7f929c;
+        animation: intro-shell-pulse 1.2s ease-in-out infinite;
+      }
+      @keyframes intro-shell-pulse {
+        50% {
+          opacity: 0.45;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="intro-shell">
+      <img
+        class="intro-shell__logo"
+        src="/logo.svg"
+        alt="Energy Around Us"
+        fetchpriority="high"
+      />
+      <span class="intro-shell__title">EARTH ENERGY MONITOR</span>
+      <span class="intro-shell__caption">SURVEYING BULGARIA // TERRAIN SCAN</span>
+    </div>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

@@ -1,0 +1,5 @@
+Add the emissions for all the CO2 sources to a global variable. Whit this variable change the global variable for world temperature. That means that the work efficiancy of the data centeres is lowered, therefor there is more need for cooling which means more CO2 from energy creation. 
+
+Calculate with code CO2 creation from data centers on the planets. Make me a formula from the available info.
+
+We need a UI and a whole project breakdown. 

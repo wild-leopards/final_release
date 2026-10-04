@@ -1,0 +1,1575 @@
+/* Cards, globe viewport chrome, action button, timeline */
+
+/* ── Metric / detail cards ──────────────────────────────────────── */
+
+.metric-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 12px;
+  text-align: center;
+
+  background: var(--bg-card);
+  border: 1px solid var(--border-cyan-dim);
+  border-radius: 2px;
+  transition: border-color 150ms ease, box-shadow 150ms ease,
+    background-color 150ms ease;
+}
+
+.metric-card:hover {
+  border-color: var(--border-cyan-soft);
+}
+
+.metric-card--selected {
+  background: rgba(66, 215, 232, 0.06);
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 6px var(--glow-cyan), inset 0 0 4px rgba(66, 215, 232, 0.08);
+}
+
+.metric-card__label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.metric-card__value {
+  font-family: var(--font-mono);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--text-accent);
+}
+
+.metric-card__unit {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  margin-left: 3px;
+}
+
+.metric-card__note {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.detail-card {
+  padding: 12px;
+  text-align: left;
+
+  background: var(--bg-card);
+  border: 1px solid var(--border-cyan-dim);
+  border-radius: 2px;
+  transition: border-color 150ms ease;
+}
+
+.detail-card:hover {
+  border-color: var(--border-cyan-soft);
+}
+
+.detail-card__label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.detail-card__value {
+  margin-top: 4px;
+  font-family: var(--font-mono);
+  font-size: 15px;
+  color: var(--text-primary);
+}
+
+.detail-card__note {
+  margin-top: 3px;
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.detail-card__kind {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+}
+
+/* ── Operations scenario (inspector dropdown) ───────────────────── */
+
+.operations-select {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  padding: 6px 8px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-accent);
+  background: var(--bg-panel);
+  border: 1px solid var(--border-cyan-dim);
+  border-radius: 2px;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.operations-select:hover {
+  border-color: var(--border-cyan-soft);
+}
+
+.operations-select:focus-visible {
+  outline: none;
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 6px var(--glow-cyan);
+}
+
+/* ── Climate TRACE live-data chrome ─────────────────────────────── */
+
+.trace-badge {
+  margin-left: 6px;
+  padding: 1px 6px;
+  border-radius: 2px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  vertical-align: 1px;
+  white-space: nowrap;
+}
+
+.trace-badge--live {
+  color: var(--status-good);
+  border: 1px solid color-mix(in srgb, var(--status-good) 45%, transparent);
+  background: color-mix(in srgb, var(--status-good) 8%, transparent);
+  text-shadow: 0 0 6px color-mix(in srgb, var(--status-good) 50%, transparent);
+}
+
+.trace-badge--real {
+  color: var(--status-good);
+  border: 1px solid color-mix(in srgb, var(--status-good) 45%, transparent);
+}
+
+.trace-badge--derived {
+  color: var(--accent-cyan);
+  border: 1px solid var(--border-cyan-dim);
+}
+
+.trace-badge--synthetic,
+.trace-badge--est {
+  color: var(--text-secondary);
+  border: 1px solid var(--border-cyan-dim);
+}
+
+/* Timeline year projection (BASIS badge in the inspector) */
+.trace-badge--proj {
+  color: var(--timeline-playhead);
+  border: 1px solid var(--purple-border);
+  text-shadow: 0 0 6px var(--glow-purple);
+}
+
+.trace-card {
+  border-color: color-mix(in srgb, var(--status-good) 28%, transparent);
+}
+
+.trace-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin-top: 8px;
+}
+
+.trace-stat {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.trace-stat em {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--text-accent);
+  margin-right: 3px;
+}
+
+.trace-stat--up em {
+  color: var(--status-warn);
+}
+
+.trace-stat--down em {
+  color: var(--status-good);
+}
+
+.trace-sources {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.trace-sources__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.trace-sources__name {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.trace-sources__val {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-accent);
+  white-space: nowrap;
+}
+
+/* ── Site assessment (traffic-light suitability checklist) ────────── */
+
+.assessment-summary {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-top: 6px;
+  padding-bottom: 9px;
+  border-bottom: 1px solid var(--border-cyan-dim);
+}
+
+.assessment-summary__score {
+  font-family: var(--font-mono);
+  font-style: normal;
+  font-weight: 600;
+  font-size: 26px;
+}
+
+.assessment-summary__score--good {
+  color: var(--status-good);
+  text-shadow: 0 0 8px color-mix(in srgb, var(--status-good) 40%, transparent);
+}
+
+.assessment-summary__score--ok {
+  color: var(--status-warn);
+  text-shadow: 0 0 8px color-mix(in srgb, var(--status-warn) 35%, transparent);
+}
+
+.assessment-summary__score--bad {
+  color: var(--status-bad);
+  text-shadow: 0 0 8px color-mix(in srgb, var(--status-bad) 35%, transparent);
+}
+
+.assessment-summary__max {
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+.assessment-summary__word {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--text-secondary);
+}
+
+.assessment-checklist {
+  list-style: none;
+  margin: 9px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.assessment-check {
+  display: grid;
+  grid-template-columns: 14px 1fr;
+  column-gap: 8px;
+  align-items: start;
+}
+
+.assessment-check__icon {
+  font-size: 11px;
+  line-height: 1.25;
+  text-align: center;
+}
+
+.assessment-check--good .assessment-check__icon {
+  color: var(--status-good);
+  text-shadow: 0 0 5px color-mix(in srgb, var(--status-good) 60%, transparent);
+}
+
+.assessment-check--ok .assessment-check__icon {
+  color: var(--status-warn);
+  text-shadow: 0 0 5px color-mix(in srgb, var(--status-warn) 50%, transparent);
+}
+
+.assessment-check--bad .assessment-check__icon {
+  color: var(--status-bad);
+  text-shadow: 0 0 5px color-mix(in srgb, var(--status-bad) 50%, transparent);
+}
+
+.assessment-check--pending {
+  opacity: 0.6;
+}
+
+.assessment-check__head {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.assessment-check__criterion {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--text-primary);
+}
+
+.assessment-check__level {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+}
+
+.assessment-check--good .assessment-check__level {
+  color: var(--status-good);
+}
+
+.assessment-check--ok .assessment-check__level {
+  color: var(--status-warn);
+}
+
+.assessment-check--bad .assessment-check__level {
+  color: var(--status-bad);
+}
+
+.assessment-check__headline {
+  margin-top: 2px;
+  font-size: 11px;
+  color: var(--text-primary);
+}
+
+.assessment-check__detail {
+  margin-top: 1px;
+  font-size: 10px;
+  color: var(--text-secondary);
+}
+
+.assessment-check__source {
+  display: inline-block;
+  margin-top: 3px;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  color: var(--border-cyan);
+  opacity: 0.85;
+}
+
+/* ── Marker name label (appears when zoomed in) ─────────────────── */
+
+/* Outer wrapper drei positions every frame; its own layer keeps that
+   transform update off the main paint path */
+.marker-overlay {
+  will-change: transform;
+}
+
+.marker-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  white-space: nowrap;
+
+  color: #eef7ff;
+  -webkit-text-stroke: 3px rgba(4, 12, 20, 0.92);
+  paint-order: stroke fill;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.85);
+
+  opacity: 0; /* animated from the 3D side based on camera distance */
+  pointer-events: none;
+  user-select: none;
+  will-change: opacity; /* opacity-only animations stay compositor-side */
+}
+
+/* ── Marker action popup (anchored to selected object on globe) ─── */
+
+.marker-popup {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 132px;
+  padding: 6px;
+
+  background: rgba(9, 17, 23, 0.96);
+  border: 1px solid var(--border-cyan-soft);
+  border-radius: 3px;
+  box-shadow:
+    0 0 14px rgba(66, 215, 232, 0.18),
+    0 8px 22px rgba(0, 0, 0, 0.55);
+  transform: translateY(-10px);
+
+  animation: marker-popup-in 150ms ease-out;
+  user-select: none;
+}
+
+.marker-popup__name {
+  padding: 1px 4px 5px;
+
+  border-bottom: 1px solid var(--border-cyan-dim);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  color: var(--text-accent);
+}
+
+/* Detail line inside info-only popups (Biggest Threats cards) */
+.marker-popup__meta {
+  padding: 3px 4px 1px;
+
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+}
+
+.marker-popup__action {
+  padding: 5px 8px;
+  cursor: pointer;
+  text-align: left;
+
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 2px;
+
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--text-primary);
+
+  transition: background-color 120ms ease, border-color 120ms ease,
+    color 120ms ease;
+}
+
+.marker-popup__action:hover {
+  background: rgba(66, 215, 232, 0.08);
+  border-color: var(--border-cyan-dim);
+  color: var(--text-accent);
+}
+
+.marker-popup__action--remove {
+  color: var(--status-bad-text);
+}
+
+.marker-popup__action--remove:hover {
+  background: rgba(232, 139, 139, 0.1);
+  border-color: rgba(232, 139, 139, 0.45);
+  color: var(--status-bad-text);
+}
+
+@keyframes marker-popup-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-10px);
+  }
+}
+
+/* ── Before/after comparison rows (regional inspector) ──────────── */
+
+.comparison-card {
+  padding: 10px 12px;
+
+  background: var(--bg-card);
+  border: 1px solid var(--border-cyan-dim);
+  border-radius: 2px;
+  transition: border-color 150ms ease;
+}
+
+.comparison-card:hover {
+  border-color: var(--border-cyan-soft);
+}
+
+.comparison-card__label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.comparison-card__row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-top: 6px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+/* Big-country totals (e.g. China's 12.6M kt/yr) are thousands-separated
+   and can outgrow the card — shrink + ellipsis instead of overflowing
+   the inspector with a horizontal scrollbar. The arrow/delta never
+   shrink so the comparison stays readable. */
+.comparison-card__before,
+.comparison-card__after {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.comparison-card__before {
+  color: var(--text-secondary);
+  text-decoration: line-through;
+  text-decoration-color: rgba(127, 146, 156, 0.5);
+}
+
+.comparison-card__arrow {
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.comparison-card__after {
+  color: var(--text-accent);
+  font-size: 13px;
+}
+
+.comparison-card__delta {
+  margin-left: auto;
+  flex-shrink: 0;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+}
+
+.comparison-card__delta--worse {
+  color: var(--status-bad-text);
+}
+
+.comparison-card__delta--better {
+  color: var(--status-good);
+}
+
+/* Empty state for the regional inspector */
+
+.empty-state {
+  flex: 1;
+  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 24px;
+  text-align: center;
+
+  border: 1px dashed var(--border-cyan-dim);
+  border-radius: 2px;
+}
+
+.empty-state__icon {
+  color: var(--accent-blue);
+  opacity: 0.7;
+}
+
+.empty-state__message {
+  max-width: 220px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+/* ── Globe viewport ─────────────────────────────────────────────── */
+
+.globe-viewport {
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+
+  background: radial-gradient(ellipse at center, #0a1622 0%, var(--bg-main) 78%);
+  border: 2px solid var(--accent-blue);
+  border-radius: 2px;
+  box-shadow:
+    0 0 12px var(--glow-blue),
+    inset 0 0 16px rgba(22, 135, 232, 0.08);
+}
+
+.viewport-title {
+  padding: 10px 12px 8px;
+  text-align: center;
+
+  /* Own layer above the globe canvas: the intro's GSAP reveal leaves a
+     transform on this bar, and without a z-index here that transform
+     becomes a stacking context trapping the LAYERS dropdown *behind*
+     the canvas (same gotcha as the app-header z-index in app.css). */
+  position: relative;
+  z-index: 45;
+}
+
+.viewport-title h2 {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  color: var(--text-accent);
+}
+
+.viewport-title p {
+  margin: 3px 0 0;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--text-secondary);
+}
+
+/* Title row with the threats toggle pinned to the right edge */
+.viewport-title__row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.viewport-title__toggles {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+/* Cyan variant for the data-centers layer toggle */
+.threat-toggle--dc {
+  color: #8adcec;
+  border-color: rgba(66, 215, 232, 0.5);
+}
+
+.threat-toggle--dc:hover {
+  border-color: var(--accent-cyan);
+}
+
+/* Data-centre tooltip: cyan border to match its dots */
+.threat-tip--dc {
+  border-color: rgba(66, 215, 232, 0.55);
+}
+
+/* ── Biggest-threats toggle + tooltip ───────────────────────────── */
+
+.threat-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  flex-shrink: 0;
+
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  color: var(--text-secondary);
+  background: var(--bg-card);
+  border: 1px solid var(--border-cyan-dim);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: border-color 150ms ease, color 150ms ease, box-shadow 150ms ease;
+}
+
+.threat-toggle:hover {
+  border-color: var(--border-cyan-soft);
+  color: var(--text-primary);
+}
+
+.threat-toggle--on {
+  color: #ff8a8a;
+  border-color: color-mix(in srgb, var(--status-bad) 50%, transparent);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--status-bad) 18%, transparent);
+}
+
+.threat-toggle__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--status-bad) 70%, transparent);
+}
+
+/* The indicator dot lights up from the toggle's own state class — no
+   per-button inline colors (LAYERS and DATA CENTERS share the cyan
+   --dc treatment, BIGGEST THREATS the red --on one). */
+.threat-toggle--dc .threat-toggle__dot {
+  background: var(--accent-cyan);
+}
+
+.threat-toggle--on .threat-toggle__dot {
+  background: var(--status-bad);
+}
+
+/* drei's wrapper sets its own translate3d each frame — never override
+   it. Shift only the inner box: centered above the dot with a gap. */
+.threat-tip-wrapper .threat-tip {
+  transform: translate(-50%, calc(-100% - 10px));
+}
+
+.threat-tip {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 140px;
+  max-width: 380px;
+  padding: 7px 10px;
+  white-space: normal;
+  pointer-events: none;
+  text-align: center;
+
+  font-family: var(--font-mono);
+  background: rgba(4, 12, 20, 0.92);
+  border: 1px solid var(--border-cyan-soft);
+  border-radius: 2px;
+  color: var(--text-primary);
+}
+
+.threat-tip strong {
+  font-size: 11px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.threat-tip span {
+  font-size: 10px;
+  color: var(--text-secondary);
+}
+
+.globe-canvas {
+  flex: 1;
+  min-height: 0;
+  position: relative; /* Canvas fills this wrapper */
+}
+
+/* Crosshair while waiting for a place/move click */
+.globe-canvas--picking canvas {
+  cursor: crosshair;
+}
+
+/* ── Central action button ──────────────────────────────────────── */
+
+.viewport-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 0 10px;
+
+  /* Same GSAP-transform gotcha as .viewport-title above: the type-picker
+     menu must layer above the globe canvas, not behind it. */
+  position: relative;
+  z-index: 45;
+}
+
+.globe-action-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 7px 22px;
+  cursor: pointer;
+
+  background: rgba(9, 17, 23, 0.85);
+  border: 1px solid var(--accent-cyan);
+  border-radius: 2px;
+  box-shadow: 0 0 6px rgba(66, 215, 232, 0.15);
+  transition: background-color 150ms ease, box-shadow 150ms ease,
+    transform 150ms ease;
+  min-width: 140px;
+  text-align: center;
+}
+
+.globe-action-button:hover {
+  background: rgba(66, 215, 232, 0.12);
+  box-shadow: 0 0 10px var(--glow-cyan);
+}
+
+.globe-action-button:active {
+  transform: translateY(1px);
+}
+
+.globe-action-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.globe-action-button--active {
+  background: rgba(66, 215, 232, 0.16);
+  box-shadow: 0 0 10px var(--glow-cyan), inset 0 0 6px rgba(66, 215, 232, 0.12);
+}
+
+.globe-action-button__label {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  color: var(--text-accent);
+}
+
+.globe-action-button__helper {
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+}
+
+.globe-action-button__caret {
+  margin-left: 8px;
+  font-size: 10px;
+  color: var(--text-secondary);
+  display: inline-block;
+  transition: transform 160ms ease, color 160ms ease;
+}
+
+.globe-action-button__caret--open {
+  transform: rotate(180deg);
+  color: var(--text-accent);
+}
+
+/* ── Data layers menu (country gradient overlays) ───────────────── */
+
+.layers-menu {
+  position: relative;
+}
+
+.layers-menu__dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 240px;
+  padding: 6px;
+  z-index: 30;
+
+  background: rgba(9, 17, 23, 0.96);
+  border: 1px solid var(--border-cyan-soft);
+  border-radius: 3px;
+  box-shadow:
+    0 0 18px rgba(66, 215, 232, 0.18),
+    0 14px 34px rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(6px);
+}
+
+.layers-menu__heading {
+  display: block;
+  padding: 6px 10px 8px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.28em;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border-cyan-dim);
+  margin-bottom: 4px;
+}
+
+.layers-menu__option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 10px;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: background-color 120ms ease;
+}
+
+.layers-menu__option:hover {
+  background: rgba(66, 215, 232, 0.08);
+}
+
+.layers-menu__option input[type='checkbox'] {
+  accent-color: var(--accent-cyan);
+  flex: none;
+}
+
+.layers-menu__swatch {
+  flex: none;
+  width: 26px;
+  height: 12px;
+  border-radius: 2px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.layers-menu__text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  font-size: 12px;
+  color: var(--text-primary);
+}
+
+.layers-menu__text small {
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+}
+
+/* ── Facility-type dropdown (add-object picker) ─────────────────── */
+
+.add-object {
+  position: relative;
+}
+
+/* One-line site outlook under the placement label (cursor country) */
+.object-outlook {
+  margin-top: 6px;
+  padding: 3px 10px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+  text-align: center;
+  border: 1px solid var(--border-cyan-dim);
+  border-radius: 2px;
+  background: rgba(9, 17, 23, 0.8);
+  transition: color 160ms ease, border-color 160ms ease;
+}
+
+.object-menu {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 280px;
+  padding: 6px;
+
+  background: rgba(9, 17, 23, 0.96);
+  border: 1px solid var(--border-cyan-soft);
+  border-radius: 3px;
+  box-shadow:
+    0 0 18px rgba(66, 215, 232, 0.18),
+    0 14px 34px rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(6px);
+  z-index: 30;
+
+  animation: object-menu-in 170ms ease-out;
+}
+
+/* Arrow pointing at the button below */
+.object-menu::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: var(--border-cyan-soft);
+}
+
+.object-menu__heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px 8px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.28em;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border-cyan-dim);
+  margin-bottom: 4px;
+}
+
+/* ── Custom facility form (inside the picker) ───────────────────── */
+
+.object-form__back {
+  padding: 0 4px;
+  cursor: pointer;
+
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 13px;
+  letter-spacing: 0;
+  transition: color 120ms ease;
+}
+
+.object-form__back:hover {
+  color: var(--text-accent);
+}
+
+.object-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+}
+
+.object-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.object-form__field > span {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.object-form__field input {
+  padding: 6px 8px;
+
+  background: rgba(5, 9, 13, 0.8);
+  border: 1px solid var(--border-cyan-dim);
+  border-radius: 2px;
+  outline: none;
+
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-primary);
+
+  transition: border-color 120ms ease, box-shadow 120ms ease;
+}
+
+.object-form__field input:focus {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 8px rgba(66, 215, 232, 0.25);
+}
+
+.object-form__field input::placeholder {
+  color: rgba(127, 146, 156, 0.5);
+}
+
+.object-form__swatches {
+  display: flex;
+  gap: 8px;
+}
+
+.object-form__swatch {
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  cursor: pointer;
+
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 50%;
+
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+.object-form__swatch:hover {
+  transform: scale(1.12);
+}
+
+.object-form__swatch--picked {
+  box-shadow:
+    0 0 0 2px var(--bg-panel),
+    0 0 0 3px var(--text-accent),
+    0 0 8px rgba(255, 255, 255, 0.25);
+}
+
+.object-form__submit {
+  margin-top: 2px;
+  padding: 8px 12px;
+  cursor: pointer;
+
+  background: rgba(66, 215, 232, 0.14);
+  border: 1px solid var(--accent-cyan);
+  border-radius: 2px;
+
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: var(--text-accent);
+
+  transition: background-color 120ms ease, box-shadow 120ms ease;
+}
+
+.object-form__submit:hover {
+  background: rgba(66, 215, 232, 0.24);
+  box-shadow: 0 0 10px var(--glow-cyan);
+}
+
+.object-form__submit:active {
+  transform: translateY(1px);
+}
+
+.object-menu__option {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  width: 100%;
+  padding: 9px 10px;
+  cursor: pointer;
+  text-align: left;
+
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 2px;
+
+  opacity: 0;
+  animation: object-menu-option-in 240ms ease forwards;
+
+  transition: background-color 120ms ease, border-color 120ms ease,
+    transform 120ms ease;
+}
+
+.object-menu__option:hover {
+  background: rgba(66, 215, 232, 0.08);
+  border-color: var(--border-cyan-dim);
+  transform: translateX(2px);
+}
+
+.object-menu__option:active {
+  transform: translateX(2px) scale(0.99);
+}
+
+.object-menu__icon {
+  flex: none;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+
+  border: 1px solid;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.object-menu__icon--custom {
+  color: var(--text-accent);
+  border-color: var(--border-cyan-soft);
+  border-style: dashed;
+}
+
+.object-menu__divider {
+  height: 1px;
+  margin: 5px 4px;
+  background: var(--border-cyan-dim);
+}
+
+.object-menu__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.object-menu__name {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--text-primary);
+}
+
+.object-menu__option:hover .object-menu__name {
+  color: var(--text-accent);
+}
+
+.object-menu__spec {
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--text-secondary);
+}
+
+.object-menu__arrow {
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--text-secondary);
+  opacity: 0;
+  transition: opacity 120ms ease, transform 120ms ease;
+}
+
+.object-menu__option:hover .object-menu__arrow {
+  opacity: 1;
+  transform: translateX(2px);
+}
+
+@keyframes object-menu-in {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(8px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+}
+
+@keyframes object-menu-option-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Viewport control/hint strip ────────────────────────────────── */
+
+.globe-hint {
+  padding: 6px 12px;
+  text-align: center;
+
+  background: rgba(22, 135, 232, 0.18);
+  border-top: 1px solid var(--accent-blue);
+  border-radius: 0 0 1px 1px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.32em;
+  color: #9fd4ff;
+}
+
+.globe-hint--placing {
+  background: rgba(66, 215, 232, 0.22);
+  border-top-color: var(--accent-cyan);
+  color: var(--text-accent);
+}
+
+/* ── Simulation timeline ────────────────────────────────────────── */
+
+.simulation-timeline {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 0 12px 12px;
+  padding: 8px 16px;
+
+  background: var(--timeline-bg);
+  border: 1px solid var(--purple-border);
+  border-radius: 2px;
+  box-shadow: 0 0 6px var(--glow-purple);
+}
+
+.timeline-date {
+  min-width: 150px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  color: var(--text-primary);
+}
+
+.timeline-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.timeline-divider {
+  width: 1px;
+  height: 22px;
+  background: var(--purple-border);
+  opacity: 0.6;
+}
+
+.timeline-track {
+  flex: 1;
+  position: relative;
+  height: 4px;
+  margin: 0 38px;
+  cursor: pointer;
+  touch-action: none;
+
+  background: rgba(162, 78, 143, 0.25);
+  border-radius: 1px;
+}
+
+/* Widen the 4px track's click/drag target without visual bulk. */
+.timeline-track::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  bottom: -10px;
+  left: 0;
+  right: 0;
+}
+
+.timeline-track__fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 0;
+
+  background: var(--purple-border);
+  border-radius: 1px;
+}
+
+.timeline-track__playhead {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 2px;
+  height: 10px;
+  transform: translate(-50%, -50%);
+
+  background: var(--timeline-playhead);
+  box-shadow: 0 0 4px var(--glow-purple);
+}
+
+.timeline-track__playhead--active {
+  height: 14px;
+  box-shadow: 0 0 8px var(--glow-purple);
+}
+
+.timeline-track__start,
+.timeline-track__end {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--text-secondary);
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.timeline-track__start {
+  right: calc(100% + 6px);
+}
+
+.timeline-track__end {
+  left: calc(100% + 6px);
+}
+
+.timeline-mode {
+  min-width: 130px;
+  text-align: right;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--text-purple);
+}
+
+/* ── Generic icon button (timeline transport, etc.) ─────────────── */
+
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 28px;
+  padding: 0;
+  cursor: pointer;
+
+  background: rgba(95, 23, 78, 0.25);
+  border: 1px solid var(--purple-border);
+  border-radius: 2px;
+  color: var(--text-purple);
+  transition: background-color 150ms ease, box-shadow 150ms ease,
+    color 150ms ease;
+}
+
+.icon-button:hover {
+  background: rgba(162, 78, 143, 0.3);
+  box-shadow: 0 0 6px var(--glow-purple);
+  color: #edcbe0;
+}
+
+.icon-button:active {
+  transform: translateY(1px);
+}
+
+.icon-button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.icon-button svg {
+  display: block;
+}
+
+/* ── Street-level map layer (MapLibre, own OSM tiles) ──────────── */
+/* Sits under the globe scene inside .globe-canvas; both layers'
+   opacity is driven per-frame by StreetLevel's camera-altitude sync,
+   so zooming in from orbit crossfades into the street map. */
+
+.globe-canvas__scene {
+  position: absolute;
+  inset: 0;
+}
+
+.street-level {
+  position: absolute;
+  inset: 0;
+  opacity: 0; /* fades in as the camera descends (driven per-frame
+                 by StreetLevel's camera-altitude sync, which writes
+                 this wrapper — keep in sync with StreetLevel.tsx) */
+  pointer-events: none; /* the globe controls stay the input surface */
+}
+
+/* Doubled class beats maplibre-gl.css's `.maplibregl-map { position:
+   relative }` (added to this host) regardless of stylesheet order — the
+   lazy StreetLevel chunk injects maplibre's CSS *after* panels.css, which
+   otherwise collapsed the host to 0 px height and broke the crossfade. */
+.street-level__map.street-level__map {
+  position: absolute;
+  inset: 0;
+}
+
+.street-level__map .maplibregl-canvas {
+  outline: none;
+}
+
+/* ── Street-level ghost preview + facility popup ───────────────────
+   Positioned imperatively (transform), like the globe overlays; the
+   wrapper stays pointer-events:none so orbit/pan never breaks — only
+   the popup itself accepts clicks. */
+
+.street-ghost {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.street-ghost__dot {
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  opacity: 0.8;
+  animation: street-ghost-pulse 1.4s ease-in-out infinite;
+}
+
+.street-ghost__label {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--text-accent);
+  background: rgba(5, 9, 13, 0.85);
+  border: 1px solid var(--border-cyan-dim);
+  border-radius: 2px;
+  padding: 2px 6px;
+}
+
+@keyframes street-ghost-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+  50% {
+    transform: scale(1.45);
+    opacity: 0.45;
+  }
+}
+
+.street-popup {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  visibility: hidden; /* the rAF sync reveals it when anchored */
+  will-change: transform;
+  /* .street-level sets pointer-events:none (inherited!) so orbit/pan
+     never breaks — the popup buttons must opt back in. */
+  pointer-events: auto;
+}
+
+.street-popup .marker-popup {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  transform: translateX(-50%);
+}
+
+.street-level__status {
+  position: absolute;
+  left: 10px;
+  bottom: 8px;
+  z-index: 2;
+  padding: 3px 8px;
+
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  color: var(--text-secondary);
+
+  background: rgba(5, 9, 13, 0.72);
+  border: 1px solid var(--border-cyan-dim);
+  border-radius: 3px;
+}
+
+/* The check line marks real published data (vs approx estimates) */
+.threat-tip__real {
+  color: var(--status-good);
+}
+
+.detail-card__note--warn {
+  margin-top: 6px;
+  color: var(--status-warn);
+}
+
+/* Yearly ticks on the monthly timeline track */
+.timeline-track__tick {
+  position: absolute;
+  top: 50%;
+  width: 1px;
+  height: 4px;
+  transform: translate(-50%, -50%);
+  background: var(--purple-border);
+  pointer-events: none;
+}
+
+.timeline-track__tick--major {
+  height: 8px;
+}
+
+.comparison-card__note {
+  display: block;
+  margin-top: 4px;
+  font-size: 10px;
+  color: var(--text-secondary);
+}
+
+/* AI explanation card */
+.explain-card__text p {
+  margin: 0 0 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--text-primary);
+}
+
+.explain-card__text--stale p {
+  opacity: 0.55;
+}
+
+.explain-card__loading {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.explain-card__button {
+  margin: 6px 0 4px;
+  padding: 5px 10px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  background: transparent;
+  border: 1px solid var(--border-cyan-dim);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: border-color 150ms, background 150ms;
+}
+
+.explain-card__button:hover {
+  border-color: var(--border-cyan);
+  background: color-mix(in srgb, var(--border-cyan-dim) 30%, transparent);
+}

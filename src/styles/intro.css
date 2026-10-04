@@ -1,0 +1,94 @@
+/* Opening boot-sequence overlay (IntroOverlay) */
+
+.intro-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  cursor: pointer;
+  background: var(--bg-main);
+  opacity: 1;
+  transition: opacity 1.2s ease;
+}
+
+/* Fade-out phase of the drone pull-back; keeps eating clicks */
+.intro-overlay--fade {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Doubled class: must beat maplibre-gl.css `.maplibregl-map { position:
+   relative }` whatever order the lazy chunks inject stylesheets in. */
+.intro-overlay__map.intro-overlay__map {
+  position: absolute;
+  inset: 0;
+  /* The 2D map clears the stage fast once the "drone" pull-back starts:
+     the globe scene becomes the backdrop and the overlay captions fade
+     later, without the OSM map lingering under the rising dashboard UI
+     (see IntroOverlay.tsx — the class is added at MAP_HOLD). */
+  transition: opacity 0.45s ease;
+}
+
+.intro-overlay__map--hidden {
+  opacity: 0;
+}
+
+/* Splash logo shown while the boot sequence "loads" (fades out when the
+ * drone pull-back starts). The source logo.svg is black on transparent,
+ * so invert it for the dark console; keep the glow restrained. */
+.intro-overlay__logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 500px;
+  transform: translate(-50%, -50%);
+
+  filter: invert(1) drop-shadow(0 0 10px var(--glow-cyan));
+  opacity: 0.92;
+}
+
+.intro-overlay__title {
+  position: absolute;
+  top: 18px;
+  left: 20px;
+
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  color: var(--text-accent);
+  text-shadow: 0 0 8px var(--glow-cyan);
+}
+
+.intro-overlay__caption {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--text-secondary);
+  animation: intro-caption-pulse 1.2s ease-in-out infinite;
+}
+
+.intro-overlay__skip {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  padding: 4px 8px;
+
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--text-secondary);
+
+  background: rgba(5, 9, 13, 0.6);
+  border: 1px solid var(--border-cyan-dim);
+  border-radius: 2px;
+}
+
+@keyframes intro-caption-pulse {
+  50% {
+    opacity: 0.45;
+  }
+}
